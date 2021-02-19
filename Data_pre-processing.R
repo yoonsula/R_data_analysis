@@ -60,3 +60,32 @@ mapply(mean,test2[1:4],na.rm=TRUE)
 
 boxplot(iris)
 plot(iris$Sepal.Length, iris$Sepal.Width)
+
+head(iris)
+cbind(as.data.frame(scale(iris[1:4])),iris$Species)
+baseData<-c(1:10)
+baseData2<-baseData+runif(10,min=-3,max=3)
+baseData3<-baseData+baseData2+runif(10,min=-7,max=7)
+TestData<-data.frame(baseData,baseData2,baseData3)
+Result<-princomp(TestData)
+summary(Result)
+Result$scores[,1:2]
+
+library(caret)
+install.packages("mlbench")
+library(mlbench)
+nearZeroVar(iris,saveMetrics = TRUE)
+data(Soybean)
+head(Soybean)
+nearZeroVar(Soybean,saveMetrics = TRUE)
+
+#상관관계가 높은 변수 제거
+findCorrelation(cor(subset(iris,select = -c(Species))))
+Myiris<-iris[,-c(3)]
+head(Myiris)
+data("Vehicle")
+head(Vehicle)
+findCorrelation(cor(subset(Vehicle, select=-c(Class))))
+cor(subset(Vehicle,select=-c(Class)))[c(3,8,11,7,9,2),c(3,8,11,7,9,2)]
+myVehicle<-Vehicle[,-c(3,8,11,7,9,2)]
+head(myVehicle)
