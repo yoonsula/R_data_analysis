@@ -50,3 +50,65 @@ x<-seq(1,10,0.1)
 y<-exp(x)
 plot(x,y)
 plot(x,y,main="EXP_GRAPH",xlab="Time",ylab="Income increase")
+
+#R그래프 그리기
+abc<-c(260,300,250,280,310)
+def<-c(180,200,210,190,170)
+ghi<-c(210,250,260,210,270)
+plot(abc,type="o",col="red",ylim=c(0,400), axes=F, ann=F)
+axis(1, at=1:5, lab=c("A","B","C","D","E"))
+axis(2, ylim=c(0,400))
+title(main="Fruit",col.main="red",font.main=4)
+title(xlab="Day",col.lab="black")
+title(ylab="Price",col.lab="blue")
+lines(def,type="o",pch=21,col="green",lty=2)
+lines(ghi,type="o",pch=22,col="blue",lty=2)
+legend(3,400,c("Orange","Apple","Banana"),cex=0.8,
+       col=c("red","green","blue"),pch=21,lty=1:3)
+#cex:글자크기   lty:대시선
+
+#기본 R그래프 그리기
+x<-c(50,40,32,68,120,92)
+barplot(x, names="Total Sale Amount")
+x_matrix<-matrix(c(50,40,32,68,120,92),3,2)
+x_matrix
+split.screen(c(1,2))
+screen(1)
+barplot(x_matrix, names=c("Korea","America"))
+screen(2)
+barplot(x_matrix, names=c("Korea","America"),beside=T)
+abc<-c(50,40,32,68,120,92)
+barplot(abc,main="abc",xlab="season", ylab="sales", names.arg=
+          c("A","B","C","D","E","F"),border="blue",density=c(10,30,50,80,90,92))
+
+abc<-c(110,300,150,280,310)
+def<-c(180,200,210,190,170)
+ghi<-c(210,150,260,210,70)
+B_Type2<-matrix(c(abc,def,ghi),5,3)
+B_Type2
+barplot(B_Type2,main="Ball Type별 시즌의 판매량",xlab="Ball Type",
+        ylab="매출",beside=T,names.arg=c("Baseball","Soccerball","Beachball"),
+        border="blue",col=rainbow(5),ylim=c(0,400))
+legend(13,400,c("A시즌","B시즌","C시즌","D시즌","E시즌"),cex=0.7,
+       fill=rainbow(5))
+barplot(t(B_Type2), main="시즌별 볼타입에 따른 판매량",xlab="Season",
+        ylab="Price",beside=T,names.arg=c("A","B","C","D","E"),
+        border="blue",col=rainbow(3),ylim=c(0,400))
+legend(13,400,c("Baseball","Soccerball","Beachball"),cex=0.7,fill=rainbow(3))
+
+#데이터 누적 형태로 보여 주는 예
+barplot(t(B_Type2), main="시즌별 볼타입에 따른 판매량(누적 표시형)",
+        xlab="Season",ylab="매출",names.arg=c("A","B","C","D","E"),
+        border="blue", col=rainbow(3),ylim=c(0,1000))
+legend(4,1000,c("Baseball","Soccerball","Beachball"),cex=0.7,fill=rainbow(3))
+
+#점그래프 그리기
+x
+dotchart(x,labels=c("A","B","C","D","E","F"),pch=22)
+
+#히스토그램 그리기
+x<-c(1,2,1,4,5,4,5,2,3,5,2,6,7,3,7,8,6,5,4,7,7,6,5,7,8,9,8)
+hist(x,xlim=c(0,10),ylim=c(0,6),nclass=12,main="Call number of #1 Topic")
+#nclass: 계급구간의 수
+
+#원그래프 그리기
