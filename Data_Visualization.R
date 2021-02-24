@@ -112,3 +112,24 @@ hist(x,xlim=c(0,10),ylim=c(0,6),nclass=12,main="Call number of #1 Topic")
 #nclass: 계급구간의 수
 
 #원그래프 그리기
+T_sales<-c(210,110,400,550,700,130)
+pie(T_sales)
+pie(T_sales,init.angle=90,col=rainbow(length(T_sales)),
+    labels=c("Mon","Tue","Wed","Thu","Fri","Sat"))
+legend(1,1,c("Mon","Tue","Wed","Thu","Fri","Sat"),cex=0.7,
+       fill=rainbow(length(T_sales)))
+#3차원 파이 그래프 그리기
+install.packages("plotrix")
+library(plotrix)
+T_sales<-c(210,110,400,550,700,130)
+week<-c("Mon","Tue","Wed","Thu","Fri","Sat")
+ratio<-round(T_sales/sum(T_sales)*100,1)
+label<-paste(week,"\n",ratio,"%")
+pie3D(T_sales,main="주간 매출 변동",col=rainbow(length(T_sales)),
+      cex=0.8,labels=label)
+legend(0.8,1.4,c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat"),cex=0.7,fill=rainbow(length(T_sales)))
+pie3D(T_sales,main="주간 매출 변동", col=rainbow(length(T_sales)), cex=0.8,  labels=label, explode=0.05)
+
+#박스그래프 그리기
+boxplot(abc,def,ghi)
+boxplot(abc,def,ghi,col=c("yellow","cyan","green"),names=c("baseball","soccerball","beachball"),horizontal=TRUE)
