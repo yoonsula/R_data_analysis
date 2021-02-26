@@ -214,3 +214,88 @@ y = outer(x1,x2,FUN=f)
 persp(x1,x2,y)
 contour(x1,x2,y)
 image(x1,x2,y)
+
+#패키지로 그래프 그리기
+#plot3d 패키지
+install.packages("scatterplot3d")
+plot3DfishData<-function(x,y,z,data=iris){
+  require("scatterplot3d")
+  fish.variable<-colnames(data)
+  scatterplot3d(data[,x],data[,y],data[,z],
+                color=c("blue","black","red","green","turquois")
+                [data$Species],
+                pch=19,xlab=fish.variable[x],ylab=fish.variable[y],
+                zlab=fish.variable[z])
+}
+par(mfrow=c(2,2))
+plot3DfishData(1,2,5)
+plot3DfishData(1,2,3)
+plot3DfishData(3,4,5)
+plot3DfishData(2,3,5)
+
+#lattice 패키지
+install.packages("lattice")
+library(lattice)
+data("quakes")
+head(quakes)
+str(quakes)
+mini<-min(quakes$depth)
+maxi<-max(quakes$depth)
+r<-ceiling((maxi-mini)/8)   #ceiling:그래프 구간 값을 구함
+inf<-seq(mini,maxi,r)
+r
+mini
+maxi
+inf
+quakes$depth.cat<-factor(floor((quakes$depth-mini)/r),
+                         labels=paste(inf,inf+r,sep="-"))
+#floor:주어진 숫자보다 크지 않은 정수를 반환한다.(예:floor(2.3)->2)
+xyplot(lat~long|depth.cat,data=quakes,main="EarthQuake Data")
+cloud(mag~lat*long, data=quakes, sub="Magnitude")
+splom(quakes[,1:4])
+bwplot(mag~depth.cat, data=quakes, main="Depth and Strength Relationship")
+
+#ggplot2 패키지
+install.packages('ggplot2')
+library(ggplot2)
+diamonds
+g<-diamonds[order(diamonds$table),]
+head(g)
+tail(g)
+gg<-ggplot(diamonds,aes(x=carat, y=price))  #aes:그림의 축
+gg+geom_point(size=1,shape=2,color="steelblue",stroke=1)
+#size:점의 크기, shape:도형, stroke:각 점의 외각선 굵기
+gg+geom_point(aes(size=carat,shape=cut,color=color,stroke=carat))
+
+gg1<-gg+geom_point(aes(color=color))
+gg2<-gg1+labs(title="Diamonds",x="Carat Layer", y="Price Layer")
+print(gg2)
+
+gg1<-gg+geom_point(aes(color=color))
+gg2<-gg1+labs(title="Diamonds",x="Carat", y="Price")
+gg2+theme(text=element_text(color="red"))
+#theme:그래프 설정 변경, element_text:그래프요소 중 텍스트부분을 지칭
+
+gg3<-gg2+theme(plot.title=element_text(size=25),axis.title.x=
+                 element_text(size=20),axis.title.y=element_text(size=20),
+               axis.text.x=element_text(size=15),axis.text.y=element_text(size=15))
+
+gg3+labs(title="Plot Title \nSecond Line of plot Title")+
+  theme(plot.title=element_text(face="bold",color="steelblue",lineheight=1))
+
+gg3+scale_colour_manual(name='Legend',values=c('D'='grey','E'='red',
+  'F'='blue','G'='yellow','H'='black','I'='green','J'='firebrick'))
+
+gg3+coord_cartesian(xlim=c(0,3),ylim=c(0,5000))+geom_smooth()
+#coord_cartesian:그림에서 x축,y축의 크기를 변경
+#geom_smooth: 추세선을 추가한다.
+
+gg3+coord_flip()   #x축과 y축을 변경
+
+gg3+theme(plot.background=element_rect(fill="yellowgreen"),
+          plot.margin=unit(c(3,2,3,2),"cm"))
+#plot.margin:여백공간설정, 4개의 숫자는 각각 위,오른쪽,아래,왼쪽
+
+p1<-gg3+geom_hline(yintercept=5000,size=2,
+      linetype="dotted",color="blue")
+print(p1)
