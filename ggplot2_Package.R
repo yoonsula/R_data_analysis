@@ -67,3 +67,55 @@ g + geom_point() +geom_smooth(method="lm",se=F)+
   labs(subtitle="mpg: city vs highway mileage", y="hwy",x="cty",
        title="Scatterplot with overlapping points",
        caption="Source: midwest")
+# 3
+library(ggplot2)
+data(mpg,package="ggplot2")
+theme_set(theme_bw())
+g<-ggplot(mpg, aes(cty,hwy))
+g+geom_count(col="tomato3",show.legend=F)+
+  labs(subtitle="mpg: city vs highway maleage",
+       y="hwy", x="cty",title="Counts plot")
+
+# 4
+library(ggplot2)
+install.packages("ggExtra")
+library(ggExtra)
+data(mpg, package="ggplot2")
+theme_set(theme_bw())
+mpg_select<-mpg[mpg$hwy>=35 & mpg$cty >27,]
+g<-ggplot(mpg, aes(cty,hwy))+geom_count()+geom_smooth(method="lm",se=F)
+ggMarginal(g,type="histogram",fill="transparent")
+ggMarginal(g,type="boxplot",fill="transparent")
+
+# 5
+library(ggplot2)
+install.packages("ggcorrplot")
+library(ggcorrplot)
+data(mtcars)
+corr<-round(cor(mtcars),1)
+ggcorrplot(corr,hc.order=TRUE,type="lower",lab=TRUE,lab_size=3,
+           method="circle",colors=c("tomato2","white","springgreen3"),
+           title="Correlogram of mtcars", ggtheme=theme_bw)
+
+# 6
+library(ggplot2)
+theme_set(theme_bw())
+data("mtcars")
+#head(mtcars)
+mtcars$'car name'<-rownames(mtcars)
+#mtcars$'car name'
+mtcars$mpg_z<-round((mtcars$mpg-mean(mtcars$mpg))/sd(mtcars$mpg),2)
+mtcars$mpg_type<-ifelse(mtcars$mpg_z<0, "below", "above")
+mtcars<-mtcars[order(mtcars$mpg_z),]
+#mtcars
+mtcars$'car name'<-factor(mtcars$'car_name', levels=mtcars$'car name')
+
+
+ggplot(mtcars, aes(x="car name", y=mpg_z, label=mpg_z)) + 
+  geom_bar(stat='identity', aes(fill=mpg_type), width=.5) +
+  scale_fill_manual(name="Mileage",
+                    labels = c("Above Average", "Below Average"), 
+                    values = c("above"="#00ba38", "below"="#f8766d")) + 
+  labs(subtitle="Normalised mileage from 'mtcars'", 
+       title= "Diverging Bars") + 
+  coord_flip()
